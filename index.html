@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz de Anatomia</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #eef2f3; padding: 20px; margin: 0; }
+    .quiz-container { max-width: 900px; margin: auto; background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .question { font-weight: bold; margin-bottom: 10px; font-size: 18px; }
+    .options label { display: block; margin-bottom: 5px; cursor: pointer; }
+    button { padding: 12px 25px; font-size: 16px; cursor: pointer; background-color: #007BFF; color: white; border: none; border-radius: 8px; transition: background-color 0.3s; }
+    button:hover { background-color: #0056b3; }
+    .result { font-size: 20px; font-weight: bold; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <div id="quiz"></div>
+    <button onclick="submitQuiz()">Enviar Respostas</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "Qual estrutura separa o tórax do abdome?",
+        options: ["Diafragma", "Esterno", "Coração", "Pulmão"],
+        answer: 0
+      },
+      {
+        question: "Quantos ossos possui o esqueleto humano adulto?",
+        options: ["200", "206", "210", "198"],
+        answer: 1
+      },
+      {
+        question: "Qual o maior órgão do corpo humano?",
+        options: ["Fígado", "Cérebro", "Pele", "Pulmão"],
+        answer: 2
+      }
+    ];
+
+    const quizContainer = document.getElementById("quiz");
+
+    quizData.forEach((q, i) => {
+      const questionEl = document.createElement("div");
+      questionEl.innerHTML = `
+        <div class="question">${i + 1}. ${q.question}</div>
+        ${q.options.map((opt, idx) => `
+          <label><input type="radio" name="q${i}" value="${idx}"> ${opt}</label>
+        `).join('')}
+        <br/>
+      `;
+      quizContainer.appendChild(questionEl);
+    });
+
+    function submitQuiz() {
+      let score = 0;
+      quizData.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected && parseInt(selected.value) === q.answer) {
+          score++;
+        }
+      });
+      document.getElementById("result").textContent = `Você acertou ${score} de ${quizData.length} questões.`;
+    }
+  </script>
+</body>
+</html>
